@@ -18,11 +18,26 @@ int main()
 	tmp.push_back(T[N-1] + 1);
 	for (int i = 0; i < M; i++) {
 		cin >> Q[i];
-		for (int j = 0; j < tmp.size(); j++) {
-			if (Q[i] <= tmp[j]) { cout << tmp[j] << endl; break; }
-			if (j == tmp.size() - 1) cout << Q[i] << endl;
+
+		int left = 0, right = N - 1;
+		int mid = left + (right - left) / 2;
+		bool QinT = false;
+		while (left <= right) {
+			if (Q[i] == T[mid]) { QinT = true; break; }
+			else if (Q[i] > T[mid]) left = mid + 1;
+			else right = mid - 1;
 		}
+		
+		if (QinT) {
+			for (int j = 0; j < tmp.size(); j++) {
+				if (Q[i] <= tmp[j]) { res.push_back(tmp[j]); break; }
+				if (j == tmp.size() - 1) res.push_back(Q[i]);
+			}
+		}
+		else res.push_back(Q[i]);
 	}
 	
+	for (int i = 0; i < M; i++)
+		cout << res[i] << endl;
 	return 0;
 }
